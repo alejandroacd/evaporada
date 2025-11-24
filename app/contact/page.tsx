@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Send, Loader2, CheckCircle, Mail } from "lucide-react"
+import { GoBackButton } from '@/components/go-back'
 
 export default function ContactPage() {
   const [state, handleSubmit] = useForm("xovzdpaq")
@@ -37,12 +38,13 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="container max-w-2xl mx-auto py-12">
+    <div className="container max-w-2xl mx-auto py-8">
+      <GoBackButton label="Back to Home" className="mb-3"/>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Contact</CardTitle>
           <CardDescription className="text-lg">
-            For enquiries ☒ evalyc@gmail.com
+            For enquiries or collaborations, please email <b>evalyc@gmail.com</b>
           </CardDescription>
         </CardHeader>
         
