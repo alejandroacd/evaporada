@@ -4,16 +4,10 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { startTransition, useEffect, useState } from 'react'
 
-declare global {
-  interface Document {
-    startViewTransition?: (callback: () => void) => void
-  }
-}
-
 export function ViewTransitionProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
-  const [isPending, startNavigating] = startTransition
+  const startNavigating = startTransition
 
   useEffect(() => {
     if (!document.startViewTransition) return
