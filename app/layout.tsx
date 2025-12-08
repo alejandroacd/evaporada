@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
+import Footer from "@/components/footer"; // <-- Importa el Footer
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="view-transition">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <ThemeProvider
           attribute="class"
@@ -35,9 +37,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <section className="lg:px-24 lg:py-12 p-6 min-h-screen">
-          {children}
-          </section>
+          <main className="flex-grow">
+            <section className="lg:px-24 lg:py-12 p-6">
+              {children}
+            </section>
+          </main>
+          <Footer /> {/* <-- Agrega el Footer aquí */}
         </ThemeProvider>
       </body>
     </html>
