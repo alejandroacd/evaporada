@@ -3,7 +3,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 import ReactMarkdown from "react-markdown";
 
 export default async function AboutPage() {
-  const supabase = await supabaseServer();
+  const supabase =  supabaseServer();
 
   const { data: about, error } = await supabase
     .from("about")
