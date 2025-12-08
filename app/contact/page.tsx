@@ -44,7 +44,7 @@ export default function ContactPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Contact</CardTitle>
           <CardDescription className="text-lg">
-            For enquiries or collaborations, please email <b>evalyc@gmail.com</b>
+            For enquiries or collaborations.
           </CardDescription>
         </CardHeader>
         
@@ -143,12 +143,7 @@ export default function ContactPage() {
           </form>
 
           {/* Información de contacto adicional */}
-          <div className="mt-8 pt-6 border-t">
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Mail className="h-4 w-4" />
-              <span>evalyc@gmail.com</span>
-            </div>
-          </div>
+        
         </CardContent>
       </Card>
     </div>

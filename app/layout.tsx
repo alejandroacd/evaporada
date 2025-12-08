@@ -35,7 +35,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <section className="lg:p-24 p-6 min-h-screen">
+          <section className="lg:px-24 lg:py-12 p-6 min-h-screen">
           {children}
           </section>
         </ThemeProvider>

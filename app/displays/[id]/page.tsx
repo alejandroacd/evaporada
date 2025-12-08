@@ -1,7 +1,8 @@
-import { GoBackButton } from "@/components/go-back";
 import { Display } from "@/types/display";
 import DisplayContent from "@/components/display";
-
+import { notFound } from "next/navigation";
+import { supabaseServer } from "@/lib/supabase/server";
+import { GoBackButton } from "@/components/go-back";
 // Datos de ejemplo
 const mockDisplay: Display = {
   id: "1",
@@ -18,7 +19,15 @@ const mockDisplay: Display = {
 
 export default async function DisplayPage({ params }: { params: { id: string } }) {
   const { id } = await params;
-  const display = mockDisplay; 
+
+    const supabase = supabaseServer();
+    const { data: display, error } = await supabase
+      .from("displays")
+      .select("*")
+      .eq("id", id)
+      .single();
+  
+ 
   return (
     <div className="container  py-8">
       <DisplayContent display={display} />

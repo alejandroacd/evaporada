@@ -1,75 +1,75 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Share, 
-  Printer, 
-  Mail, 
-  Plus, 
+import {
+  ChevronLeft,
+  ChevronRight,
+  Share,
   X,
   ZoomIn
 } from "lucide-react";
 import { Publication } from "@/types/publication";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
-export function PublicationContent({ publication }: { publication: Publication }) {
+export function PublicationContent({
+  publication,
+}: {
+  publication: Publication;
+}) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Use provided images, otherwise fall back to Picsum placeholders
-  const images: string[] = (publication.images && publication.images.length > 0)
-    ? publication.images
-    : Array.from({ length: 4 }).map((_, i) => {
-        const seed = (publication.id ?? publication.title ?? "publication").toString().replace(/\s+/g, "-");
-        return `https://picsum.photos/seed/${encodeURIComponent(seed)}-${i}/900/1200`;
-      });
+  const images =
+    publication.images && publication.images.length > 0
+      ? publication.images
+      : [];
 
-  const nextImage = () => {
-    setSelectedImageIndex((prev) =>
-      prev === images.length - 1 ? 0 : prev + 1
-    );
-  };
+  const nextImage = () =>
+    setSelectedImageIndex((i) => (i === images.length - 1 ? 0 : i + 1));
 
-  const prevImage = () => {
-    setSelectedImageIndex((prev) =>
-      prev === 0 ? images.length - 1 : prev - 1
-    );
-  };
+  const prevImage = () =>
+    setSelectedImageIndex((i) => (i === 0 ? images.length - 1 : i - 1));
 
   const openModal = (index: number) => {
     setSelectedImageIndex(index);
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  /* ======================
+      SHARE HANDLER
+  ====================== */
+  const handleShare = async () => {
+    const url = window.location.href;
 
-  const nextImageModal = () => {
-    setSelectedImageIndex((prev) =>
-      prev === images.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImageModal = () => {
-    setSelectedImageIndex((prev) =>
-      prev === 0 ? images.length - 1 : prev - 1
-    );
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: publication.title,
+          text: publication.description?.slice(0, 120),
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast.success("Link copied to clipboard");
+      }
+    } catch (error) {
+      toast.error("Unable to share");
+    }
   };
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-[2.2fr_1fr] gap-6">
+        {/* LEFT / IMAGES */}
+        <div className="space-y-3 lg:sticky lg:top-6">
           <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-3">
               {/* Main image */}
-              <div className="relative aspect-[3/4] rounded-lg overflow-hidden bg-muted mb-4 group">
+              <div className="relative aspect-[21/9] max-h-[80vh] rounded-lg overflow-hidden bg-muted mb-3 group">
                 <Image
                   src={images[selectedImageIndex]}
                   alt={publication.title}
@@ -79,11 +79,10 @@ export function PublicationContent({ publication }: { publication: Publication }
                   onClick={() => openModal(selectedImageIndex)}
                 />
 
-                {/* Zoom button */}
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="absolute top-2 right-2 bg-background/80 hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-2 right-2 bg-background/80 opacity-0 group-hover:opacity-100 transition"
                   onClick={() => openModal(selectedImageIndex)}
                 >
                   <ZoomIn className="h-4 w-4" />
@@ -94,7 +93,7 @@ export function PublicationContent({ publication }: { publication: Publication }
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-background/80 hover:bg-background"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80"
                       onClick={prevImage}
                     >
                       <ChevronLeft className="h-4 w-4" />
@@ -103,47 +102,33 @@ export function PublicationContent({ publication }: { publication: Publication }
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-background/80 hover:bg-background"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80"
                       onClick={nextImage}
                     >
                       <ChevronRight className="h-4 w-4" />
                     </Button>
-
-                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
-                      <div className="bg-background/80 px-3 py-1 rounded-full text-sm font-medium">
-                        {selectedImageIndex + 1} / {images.length}
-                      </div>
-                    </div>
                   </>
                 )}
               </div>
 
               {/* Thumbnails */}
               {images.length > 1 && (
-                <div className="grid grid-cols-4 gap-2">
-                  {images.map((image, index) => (
+                <div className="grid grid-cols-5 gap-2">
+                  {images.map((img, index) => (
                     <div
                       key={index}
-                      className={`relative aspect-[3/4] rounded-md cursor-pointer border-2 transition-all group ${
+                      onClick={() => setSelectedImageIndex(index)}
+                      className={`relative aspect-[4/3] rounded-md cursor-pointer border-2 transition ${
                         index === selectedImageIndex
                           ? "border-primary"
                           : "border-transparent hover:border-muted-foreground"
                       }`}
-                      onClick={() => setSelectedImageIndex(index)}
                     >
                       <Image
-                        src={image}
+                        src={img}
                         alt={`${publication.title} ${index + 1}`}
                         fill
                         className="object-cover rounded-md"
-                      />
-                      {/* Overlay for zoom on thumbnails */}
-                      <div 
-                        className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openModal(index);
-                        }}
                       />
                     </div>
                   ))}
@@ -153,70 +138,49 @@ export function PublicationContent({ publication }: { publication: Publication }
           </Card>
         </div>
 
-        {/* Info section */}
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h1 className="text-4xl font-bold tracking-tight">{publication.title}</h1>
-          </div>
+        {/* RIGHT / INFO */}
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold tracking-tight">
+            {publication.title}
+          </h1>
 
-          <div className="space-y-2">
-            <h2 className="text-lg font-semibold">by {publication.author}</h2>
-          </div>
+          <p className="leading-relaxed text-foreground">
+            {publication.description}
+          </p>
 
-          <div className="space-y-2">
-            <p className="text-foreground leading-relaxed">{publication.description}</p>
-          </div>
-
-          <Card>
-            <CardContent className="p-4">
-              <h3 className="font-semibold mb-2">About</h3>
-              <p className="text-sm text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Andrei Gusiano Albaqir is a freelance photographer from Spain. For the past ten years Andrei has been documenting the architecture and urban life of numerous European and Asian cities, and his works has been featured on many publications and exhibitions.
-              </p>
-            </CardContent>
-          </Card>
-
-          <div className="flex flex-wrap gap-3 pt-4 ml-auto justify-end">
-            <Button variant="outline" className="gap-2">
+          <div className="pt-4">
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={handleShare}
+            >
               <Share className="h-4 w-4" />
               Share
-            </Button>
-
-            <Button variant="outline" className="gap-2">
-              <Printer className="h-4 w-4" />
-              Print
-            </Button>
-
-            <Button variant="outline" className="gap-2">
-              <Mail className="h-4 w-4" />
-              Email
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Modal para imagen expandida */}
+      {/* MODAL */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-7xl w-full h-[90vh] p-0 bg-black/95 border-0">
+        <DialogContent className="max-w-[95vw] w-full h-[92vh] p-0 bg-black/95 border-0">
           <div className="relative w-full h-full flex items-center justify-center">
-            {/* Close button */}
             <Button
               variant="secondary"
               size="icon"
-              className="absolute top-4 right-4 z-50 bg-background/80 hover:bg-background"
-              onClick={closeModal}
+              className="absolute top-4 right-4 z-50 bg-background/80"
+              onClick={() => setIsModalOpen(false)}
             >
               <X className="h-4 w-4" />
             </Button>
 
-            {/* Navigation buttons */}
             {images.length > 1 && (
               <>
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-background/80 hover:bg-background z-50"
-                  onClick={prevImageModal}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-background/80"
+                  onClick={prevImage}
                 >
                   <ChevronLeft className="h-6 w-6" />
                 </Button>
@@ -224,59 +188,23 @@ export function PublicationContent({ publication }: { publication: Publication }
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-background/80 hover:bg-background z-50"
-                  onClick={nextImageModal}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-background/80"
+                  onClick={nextImage}
                 >
                   <ChevronRight className="h-6 w-6" />
                 </Button>
               </>
             )}
 
-            {/* Image counter */}
-            {images.length > 1 && (
-              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50">
-                <div className="bg-background/80 px-4 py-2 rounded-full text-sm font-medium">
-                  {selectedImageIndex + 1} / {images.length}
-                </div>
-              </div>
-            )}
-
-            {/* Main image in modal */}
-            <div className="relative w-full h-full max-w-4xl max-h-full">
+            <div className="relative w-full h-full max-w-7xl">
               <Image
                 src={images[selectedImageIndex]}
                 alt={publication.title}
                 fill
-                className="object-contain p-4"
-                quality={90}
+                className="object-contain p-6"
+                quality={95}
               />
             </div>
-
-            {/* Thumbnails in modal */}
-            {images.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-                <div className="flex gap-2 bg-background/80 p-2 rounded-lg">
-                  {images.map((image, index) => (
-                    <div
-                      key={index}
-                      className={`relative w-16 h-16 rounded cursor-pointer border-2 transition-all ${
-                        index === selectedImageIndex
-                          ? "border-primary"
-                          : "border-transparent hover:border-white"
-                      }`}
-                      onClick={() => setSelectedImageIndex(index)}
-                    >
-                      <Image
-                        src={image}
-                        alt={`${publication.title} ${index + 1}`}
-                        fill
-                        className="object-cover rounded"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </DialogContent>
       </Dialog>

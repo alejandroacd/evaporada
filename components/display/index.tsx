@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ZoomIn, X, ChevronLeft, ChevronRight} from "lucide-react";
+import { ZoomIn, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Display } from "@/types/display";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { GoBackButton } from "../go-back";
@@ -12,9 +12,7 @@ import { GoBackButton } from "../go-back";
 export function DisplayContent({ display }: { display: Display }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const images: string[] = display.images || [];
-
+  const images: string[] = display?.images || [];
   const openModal = (index: number) => {
     setSelectedImageIndex(index);
     setIsModalOpen(true);
@@ -49,28 +47,26 @@ export function DisplayContent({ display }: { display: Display }) {
   return (
     <>
       <div className="mb-6">
-        <GoBackButton label="Back to Displays"/>
+        <GoBackButton label="Back to Displays" />
       </div>
 
       {/* Title and Description */}
       <div className="space-y-6 mb-8 max-w-3xl">
         <h1 className="text-4xl font-bold tracking-tight">
-          {display.title}
+          {display?.title}
         </h1>
-        
-        <p className="text-foreground leading-relaxed text-lg whitespace-pre-line">
-          {display.description}
-        </p>
+
+
       </div>
 
       {/* Images Grid */}
-      <Card>
-        <CardContent className="p-4">
+      <Card className="bg-none shadow-none border-none bg-transparent">
+        <CardContent className="p-4 bg-none shadow-none">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {images.map((image, index) => (
+            {images?.map((image, index) => (
               <div
                 key={index}
-                className="relative aspect-square rounded-lg overflow-hidden bg-muted group cursor-zoom-in"
+                className="relative aspect-square rounded-lg overflow-hidden  group cursor-zoom-in"
                 onClick={() => openModal(index)}
                 onContextMenu={handleContextMenu}
                 onDragStart={handleDragStart}
@@ -84,7 +80,7 @@ export function DisplayContent({ display }: { display: Display }) {
                   onContextMenu={handleContextMenu}
                   onDragStart={handleDragStart}
                 />
-                
+
                 {/* Zoom overlay */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                   <ZoomIn className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -98,7 +94,7 @@ export function DisplayContent({ display }: { display: Display }) {
       {/* Image Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-7xl w-full h-[90vh] p-0 bg-black/95 border-0">
-          <div 
+          <div
             className="relative w-full h-full flex items-center justify-center"
             onContextMenu={handleContextMenu}
           >
@@ -142,7 +138,7 @@ export function DisplayContent({ display }: { display: Display }) {
             <div className="relative w-full h-full max-w-4xl max-h-full">
               <Image
                 src={images[selectedImageIndex]}
-                alt={display.title}
+                alt={display?.title}
                 fill
                 className="object-contain p-4 select-none"
                 quality={90}
@@ -158,17 +154,16 @@ export function DisplayContent({ display }: { display: Display }) {
                   {images.map((image, index) => (
                     <div
                       key={index}
-                      className={`relative w-16 h-16 rounded cursor-pointer border-2 ${
-                        index === selectedImageIndex
+                      className={`relative w-16 h-16 rounded cursor-pointer border-2 ${index === selectedImageIndex
                           ? "border-primary"
                           : "border-transparent hover:border-white"
-                      }`}
+                        }`}
                       onClick={() => setSelectedImageIndex(index)}
                       onContextMenu={handleContextMenu}
                     >
                       <Image
                         src={image}
-                        alt={`${display.title} ${index + 1}`}
+                        alt={`${display?.title} ${index + 1}`}
                         fill
                         className="object-cover rounded select-none"
                         draggable={false}

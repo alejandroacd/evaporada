@@ -1,16 +1,9 @@
 export interface Publication {
-  id: string;
-  title: string;
-  price: string;
-  description: string;
-  author: string;
-  introduction: string;
-  specifications: {
-    cover: string;
-    dimensions: string;
-  };
-  isbn: string;
-  designer: string;
-  edition: string;
-  images: string[];
+  id: number
+  title: string
+  description: string
+  created_at: string // ISO timestamp
+  updated_at: string // ISO timestamp
+  images: string[]   // URLs
+  user_id: string    // UUID
 }
