@@ -4,7 +4,7 @@ import { SectionTitle } from "@/components/section-title";
 import { supabaseServer } from "@/lib/supabase/server";
 import { Display } from "@/types/display";
 
-const revalidate = 60
+export const revalidate = 60
 export default async function DisplaysPage() {
     const supabase = supabaseServer()
 

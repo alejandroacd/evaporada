@@ -4,8 +4,6 @@ import { supabaseServer } from "@/lib/supabase/server";
 import ReactMarkdown from "react-markdown";
 
 export const dynamic = 'force-dynamic';
-
-const revalidate = 60
 export default async function AboutPage() {
   const supabase = supabaseServer();
 
