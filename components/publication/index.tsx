@@ -14,6 +14,7 @@ import {
 import { Publication } from "@/types/publication";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import TipTapContent from "../tip-tap-renderer";
 
 export function PublicationContent({
   publication,
@@ -144,9 +145,9 @@ export function PublicationContent({
             {publication.title}
           </h1>
 
-          <p className="leading-relaxed text-foreground">
-            {publication.description}
-          </p>
+          <div className="leading-relaxed text-foreground">
+            <TipTapContent content={publication.description} />
+          </div>
 
           <div className="pt-4">
             <Button

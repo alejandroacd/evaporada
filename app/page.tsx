@@ -1,5 +1,5 @@
 import { GalleryGrid } from "@/components/gallery-grid";
 
-export default function Home() {
-  return <GalleryGrid />;
+export default async function HomePage() {
+  return <GalleryGrid />
 }

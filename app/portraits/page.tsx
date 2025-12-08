@@ -8,6 +8,7 @@ interface Portrait {
   image_url: string
 }
 
+const revalidate = 60
 export default async function PortraitsPage() {
   const supabase = supabaseServer()
   const { data: portraits, error } = await supabase
