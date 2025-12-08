@@ -1,4 +1,5 @@
 import { GoBackButton } from "@/components/go-back";
+import TipTapContent from "@/components/tip-tap-renderer";
 import { supabaseServer } from "@/lib/supabase/server";
 import ReactMarkdown from "react-markdown";
 
@@ -36,9 +37,7 @@ export default async function AboutPage() {
       
       
       <article className="p-6">
-        <div className="prose prose-neutral dark:prose-invert leading-relaxed max-w-none">
-          <ReactMarkdown>{about.content}</ReactMarkdown>
-        </div>
+          <TipTapContent content={about?.content} />
       </article>
     </section>
   );
