@@ -64,15 +64,15 @@ export function PublicationContent({
       <div className="grid grid-cols-1 lg:grid-cols-[2.2fr_1fr] gap-6">
         {/* LEFT / IMAGES */}
         <div className="space-y-3 lg:sticky lg:top-6">
-          <Card>
-            <CardContent className="p-3">
+          <Card className=" shadow-none rounded-sm border-none bg-transparent">
+            <CardContent className="p-3 ">
               {/* Main image - Cambiado a aspect-[3/2] y object-contain */}
-              <div className="relative aspect-[3/2] rounded-lg overflow-hidden bg-muted mb-3 group">
+              <div className="relative aspect-[3/2] overflow-hidden mb-3 group">
                 <Image
                   src={images[selectedImageIndex]}
                   alt={publication.title}
                   fill
-                  className="object-contain cursor-zoom-in bg-black/5"
+                  className="object-contain cursor-zoom-in bg-transparent"
                   priority
                   onClick={() => openModal(selectedImageIndex)}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -88,7 +88,7 @@ export function PublicationContent({
                 </Button>
 
                 {images.length > 1 && (
-                  <>
+                  <div>
                     <Button
                       variant="secondary"
                       size="icon"
@@ -106,13 +106,13 @@ export function PublicationContent({
                     >
                       <ChevronRight className="h-4 w-4" />
                     </Button>
-                  </>
+                  </div>
                 )}
               </div>
 
               {/* Thumbnails - También actualizados */}
               {images.length > 1 && (
-                <div className="grid grid-cols-5 gap-2">
+                <div className=" mx-auto grid grid-cols-5 gap-1">
                   {images.map((img, index) => (
                     <div
                       key={index}
