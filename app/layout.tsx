@@ -1,17 +1,15 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
-import Footer from "@/components/footer"; // <-- Importa el Footer
+import Footer from "@/components/footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// Configurar Roboto Condensed
+const robotoCondensed = Roboto_Condensed({
+  weight: '400', // Solo regular (400)
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto-condensed',
 });
 
 export const metadata = {
@@ -28,7 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="view-transition">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        className={`${robotoCondensed.variable} antialiased flex flex-col min-h-screen`}
+        style={{ fontFamily: 'var(--font-roboto-condensed)' }} // Forzar Roboto Condensed
       >
         <ThemeProvider
           attribute="class"
@@ -42,7 +41,7 @@ export default function RootLayout({
               {children}
             </section>
           </main>
-          <Footer /> {/* <-- Agrega el Footer aquí */}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

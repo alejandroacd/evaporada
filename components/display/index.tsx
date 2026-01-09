@@ -51,14 +51,7 @@ export function DisplayContent({ display }: { display: Display }) {
       </div>
 
       {/* Title and Description */}
-      <div className="space-y-6 mb-8 max-w-3xl">
-        <h1 className="text-4xl font-bold tracking-tight">
-          {display?.title}
-        </h1>
-
-
-      </div>
-
+  
       {/* Images Grid */}
       <Card className="bg-none shadow-none border-none bg-transparent">
         <CardContent className="p-4 bg-none shadow-none">

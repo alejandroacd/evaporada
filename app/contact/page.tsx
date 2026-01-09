@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Send, Loader2, CheckCircle, Mail } from "lucide-react"
+import { Send, Loader2, CheckCircle } from "lucide-react"
 import { GoBackButton } from '@/components/go-back'
 
 export default function ContactPage() {
@@ -21,7 +21,7 @@ export default function ContactPage() {
               <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
               <h2 className="text-2xl font-bold">Message Sent!</h2>
               <p className="text-muted-foreground">
-                Thank you for your message. We'll get back to you soon.
+                Thanks, I'll get in touch as soon as I can.
               </p>
               <Button 
                 variant="outline" 

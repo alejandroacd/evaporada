@@ -40,9 +40,6 @@ export function PublicationContent({
     setIsModalOpen(true);
   };
 
-  /* ======================
-      SHARE HANDLER
-  ====================== */
   const handleShare = async () => {
     const url = window.location.href;
 
@@ -69,15 +66,16 @@ export function PublicationContent({
         <div className="space-y-3 lg:sticky lg:top-6">
           <Card>
             <CardContent className="p-3">
-              {/* Main image */}
-              <div className="relative aspect-[21/9] max-h-[80vh] rounded-lg overflow-hidden bg-muted mb-3 group">
+              {/* Main image - Cambiado a aspect-[3/2] y object-contain */}
+              <div className="relative aspect-[3/2] rounded-lg overflow-hidden bg-muted mb-3 group">
                 <Image
                   src={images[selectedImageIndex]}
                   alt={publication.title}
                   fill
-                  className="object-cover cursor-zoom-in"
+                  className="object-contain cursor-zoom-in bg-black/5"
                   priority
                   onClick={() => openModal(selectedImageIndex)}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
 
                 <Button
@@ -112,7 +110,7 @@ export function PublicationContent({
                 )}
               </div>
 
-              {/* Thumbnails */}
+              {/* Thumbnails - También actualizados */}
               {images.length > 1 && (
                 <div className="grid grid-cols-5 gap-2">
                   {images.map((img, index) => (
@@ -129,7 +127,8 @@ export function PublicationContent({
                         src={img}
                         alt={`${publication.title} ${index + 1}`}
                         fill
-                        className="object-cover rounded-md"
+                        className="object-contain rounded-md bg-black/5"
+                        sizes="(max-width: 768px) 20vw, 10vw"
                       />
                     </div>
                   ))}
@@ -147,17 +146,6 @@ export function PublicationContent({
 
           <div className="leading-relaxed text-foreground">
             <TipTapContent content={publication.description} />
-          </div>
-
-          <div className="pt-4">
-            <Button
-              variant="outline"
-              className="gap-2"
-              onClick={handleShare}
-            >
-              <Share className="h-4 w-4" />
-              Share
-            </Button>
           </div>
         </div>
       </div>
@@ -204,6 +192,7 @@ export function PublicationContent({
                 fill
                 className="object-contain p-6"
                 quality={95}
+                sizes="95vw"
               />
             </div>
           </div>
