@@ -33,11 +33,18 @@ export const GridBox = ({title, image, id, section, href, description}: SectionI
                 fill
                 className="object-cover transition-transform duration-700 ease-out"
             />
-            {/* Overlay más oscuro */}
-            <div className="absolute inset-0 bg-black/85 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            {/* Mobile: Bottom title bar with white background */}
+            <div className="md:hidden absolute bottom-0 inset-x-0 bg-white py-2">
+                <h2 className={`text-lg font-normal text-center uppercase tracking-wide text-black ${oswald.className}`}>
+                    {title}
+                </h2>
+            </div>
             
-            {/* Títulos con movimiento más sutil */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center 
+            {/* Desktop: Overlay más oscuro */}
+            <div className="hidden md:block absolute inset-0 bg-black/85 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Desktop: Títulos con movimiento más sutil */}
+            <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center 
                     text-white tracking-wide opacity-0 group-hover:opacity-100 
                     transition-all duration-500 translate-y-2 group-hover:translate-y-0">
                 {/* Aplicar la fuente Oswald al título */}
