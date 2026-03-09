@@ -109,7 +109,6 @@ export function PublicationContent({
                   </div>
                 )}
               </div>
-
               {/* Thumbnails - También actualizados */}
               {images.length > 1 && (
                 <div className=" mx-auto grid grid-cols-5 gap-1">

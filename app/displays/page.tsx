@@ -9,17 +9,15 @@ export const revalidate = 60;
 export default async function DisplaysPage() {
     const supabase = supabaseServer();
 
-    // Ordenar por 'order' si existe, sino por created_at
     const { data: displays, error } = await supabase
         .from('displays')
         .select('*')
-        .order('order', { ascending: true, nullsFirst: false }) // Primero por order
-        .order('created_at', { ascending: false }); // Luego por fecha si hay empates
+        .order('order', { ascending: true, nullsFirst: false }) 
+        .order('created_at', { ascending: false }); 
 
     if (error) {
         console.error("Error fetching displays:", error);
         
-        // Fallback al orden anterior
         const { data: fallbackData } = await supabase
             .from('displays')
             .select('*')
@@ -33,6 +31,7 @@ export default async function DisplaysPage() {
                         <GridBox
                             key={display.id}
                             title={display.title}
+                            description={display.description} 
                             image={display.images[0]}
                             id={display.id}
                             section="displays"

@@ -16,9 +16,10 @@ interface SectionItem {
     id?: string | number
     href?: string
     section?: string
+    description?: string
 }
 
-export const GridBox = ({title, image, id, section, href}: SectionItem) => {
+export const GridBox = ({title, image, id, section, href, description}: SectionItem) => {
     const redirectLink = id ? `/${section}/${id}` : href;
     return (
         <ViewLink

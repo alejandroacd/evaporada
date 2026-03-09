@@ -49,9 +49,13 @@ export function DisplayContent({ display }: { display: Display }) {
       <div className="mb-6">
         <GoBackButton label="Back to Displays" />
       </div>
-
-      {/* Title and Description */}
+            {/* Title and Description */}
   
+    {display?.description && (
+                <div className="leading-relaxed text-foreground px-4">
+                  {display?.description}
+                </div>
+              )}
       {/* Images Grid */}
       <Card className="bg-none shadow-none border-none bg-transparent">
         <CardContent className="p-4 bg-none shadow-none">
